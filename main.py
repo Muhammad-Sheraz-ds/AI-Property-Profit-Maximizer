@@ -9,11 +9,14 @@ import traceback
 import json
 from fastapi.responses import StreamingResponse
 import csv
+from fastapi.responses import StreamingResponse
+import tempfile
+import shutil
 
 app = FastAPI()
 
 # Load the trained model
-with open('trained_pipeline.pkl', 'rb') as file:
+with open('prediction_pipeline.pkl', 'rb') as file:
     loaded_pipeline = pickle.load(file)
 
 def property_str_to_int(text):
@@ -52,15 +55,17 @@ async def predict(file: UploadFile = File(...)):
 
         predictions = loaded_pipeline.predict(df)
 
-        # Convert NumPy array to Python list
-        predictions_list = predictions.tolist()
+    
+        df = pd.DataFrame({'Predictions':predictions})
 
-        # Convert predictions to a CSV-formatted string
-        predictions_csv = "prediction\n" + "\n".join(map(str, predictions_list))
+        # Write the DataFrame to a CSV file
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            df.to_csv(temp_file.name, index=False)
 
-        # Return CSV as a streaming response
-        return StreamingResponse(io.StringIO(predictions_csv), media_type="text/csv", headers={"Content-Disposition": "attachment;filename=predictions.csv"})
+        # Return the CSV file as a streaming response
+        return StreamingResponse(open(temp_file.name, "rb"), media_type="text/csv", headers={"Content-Disposition": "attachment;filename=predictions.csv"})
 
+        # main.py
 
     except Exception as e:
         traceback_str = traceback.format_exc()
@@ -68,9 +73,7 @@ async def predict(file: UploadFile = File(...)):
         return JSONResponse(content={"error": f"An error occurred: {str(e)}"}, status_code=500)
 
 
-   
-
-
+  
 
 
 
