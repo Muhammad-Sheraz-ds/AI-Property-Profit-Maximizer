@@ -22,7 +22,7 @@ The project is organized into the following key steps:
    - Select machine learning algorithms, tune hyperparameters, and evaluate models.
 
 3. **Create UI using Streamlit and FastAPI:**
-   - Implement user-friendly interface pages for EDA, feature engineering code pipeline, and model predictions.
+   - Implement user-friendly interface pages for feature engineering code pipeline, and model predictions.
 
 4. **Dockerization and Deployment:**
    - Package the solution into Docker containers for deployment.
