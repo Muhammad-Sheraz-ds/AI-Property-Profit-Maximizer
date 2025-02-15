@@ -1,5 +1,8 @@
 # Property-Profit-Maximizer
 
+App: [Live on Hugging Face](https://huggingface.co/spaces/MuhammadSheraza002/AI-Property-Profit-Maximizer)
+
+
 ## Overview
 
 Welcome to  End-to-End Project PropertyProfitMaximizer! This project aims to optimize real estate profits using cutting-edge AI and data mining techniques. The goal is to assist an investment fund in finding properties with the highest potential for returns on investment.
